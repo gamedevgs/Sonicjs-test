@@ -23,7 +23,7 @@
   <link href="/node_modules/formiojs/dist/formio.form.min.css" rel="stylesheet">
   <link href="/admin/css/custom.css" rel="stylesheet">
   <link href="/vendors/dropzone/dropzone.min.css" rel="stylesheet">
-  <link href="/node_modules/chart.js/dist/chart.min.css" rel="stylesheet">
+  {{!-- <link href="/node_modules/chart.js/dist/chart.min.css" rel="stylesheet"> --}}
   <link href="/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="/node_modules/jstree/dist/themes/default/style.min.css" rel="stylesheet">
 
@@ -170,6 +170,14 @@
 
 
           <li class="nav-title">Theme</li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/page-manager">
+              <i class="nav-icon icon-puzzle"></i> Page</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/blog-manager">
+              <i class="nav-icon icon-puzzle"></i> blog</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="/admin/theme-settings">
               <i class="nav-icon fa fa-paint-brush"></i> Settings</a>
@@ -745,7 +753,7 @@
   <script src="/node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
   <script src="/node_modules/@coreui/coreui/dist/js/coreui.min.js"></script>
   <script src="/node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js"></script>
-  <script src="/node_modules/chart.js/dist/chart.min.js"></script>
+  {{!-- <script src="/node_modules/chart.js/dist/chart.min.js"></script> --}}
   <script src="/admin/js/charts.js"></script>
   <script src="/node_modules/formiojs/dist/formio.full.min.js"></script>
   <script src="/page-builder/js/page-builder.js"></script>
@@ -763,7 +771,7 @@
   <script src="/services/data.service.js"></script>
   <script src="/services/form.service.js"></script>
   <script src="/admin/js/jstree.js"></script>
-
+  <script src="/admin/js/custom.js"></script>
 </body>
 
 </html>

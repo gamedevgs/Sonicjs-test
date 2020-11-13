@@ -14,7 +14,8 @@ var Handlebars = require('handlebars');
 // var bodyParser = require('body-parser');
 
 var app = module.exports = loopback();
-
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.start = function () {
 
@@ -36,35 +37,35 @@ app.start = function () {
   // app.use(express.bodyParser());
 
 
-    // configure body parser
-    // app.use(bodyParser.urlencoded({ extended: true }));
+  // configure body parser
+  // app.use(bodyParser.urlencoded({ extended: true }));
 
 
-    Handlebars.registerHelper({
-      eq: function (v1, v2) {
-          return v1 === v2;
-      },
-      ne: function (v1, v2) {
-          return v1 !== v2;
-      },
-      lt: function (v1, v2) {
-          return v1 < v2;
-      },
-      gt: function (v1, v2) {
-          return v1 > v2;
-      },
-      lte: function (v1, v2) {
-          return v1 <= v2;
-      },
-      gte: function (v1, v2) {
-          return v1 >= v2;
-      },
-      and: function () {
-          return Array.prototype.slice.call(arguments).every(Boolean);
-      },
-      or: function () {
-          return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-      }
+  Handlebars.registerHelper({
+    eq: function (v1, v2) {
+      return v1 === v2;
+    },
+    ne: function (v1, v2) {
+      return v1 !== v2;
+    },
+    lt: function (v1, v2) {
+      return v1 < v2;
+    },
+    gt: function (v1, v2) {
+      return v1 > v2;
+    },
+    lte: function (v1, v2) {
+      return v1 <= v2;
+    },
+    gte: function (v1, v2) {
+      return v1 >= v2;
+    },
+    and: function () {
+      return Array.prototype.slice.call(arguments).every(Boolean);
+    },
+    or: function () {
+      return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+    }
   });
 
 
@@ -105,7 +106,7 @@ function initEnvFile() {
         console.log('.env-default was copied to .env');
       });
     }
-  } catch(err) {
+  } catch (err) {
     console.error(err)
   }
 }

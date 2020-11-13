@@ -1,0 +1,44 @@
+<div class="col-lg-12">
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-align-justify"></i> Content
+      <a class="btn btn-success float-right" href="/admin/content/create/page">Tạo Page</a>
+    </div>
+    <div class="card-body page-list">
+      <table class="table table-responsive-sm table-striped" id="admin-content">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Url</th>
+            <th>Created</th>
+            <th>Status</th>
+            <th class='text-right'>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each data}}
+          <tr>
+            <td><a href="/admin/content/edit/{{ this.data.contentType }}/{{ this.id }}">{{ this.data.title }}</a></td>
+            <td>{{ this.data.url }}</td>
+            <td>{{ this.data.createdOnFormatted}}</td>
+            <td>
+          
+              <span class="label label-success">Đang hoạt động</span>
+            </td>
+            <td class='text-right'>
+              <a href="{{ this.data.url }}" target="_blank" class="btn btn-sm btn-success rmargin">View</a>
+              <a href="/admin/content/edit/{{ this.data.contentType }}/{{ this.id }}"
+                class="btn btn-sm btn-primary rmargin">Edit</a>
+
+              <a tabindex="0" class="btn btn-sm btn-danger" role="button" data-html="true" data-toggle="popover"
+                data-trigger="focus" title="Delete <b>{{ this.data.title }}</b> Forever?" data-content="<a href='/content/{{ this.id }}'
+   class='btn btn-sm btn-danger rmargin'>Confirm Delete</a>
+">Delete</a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

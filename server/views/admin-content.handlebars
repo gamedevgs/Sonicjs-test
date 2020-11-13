@@ -2,9 +2,18 @@
   <div class="card">
     <div class="card-header">
       <i class="fa fa-align-justify"></i> Content
-      <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#newContentModal">
-        New Content
-      </button>
+      <div class="form-inline" style="padding: 10px;">
+        <select class="form-control" id="sel1" style="width: 300px; margin-right: 10px;">
+          {{#each data.contentTypes}}
+          <option value="{{ this.systemid }}"> {{ this.title }}</option>
+          {{/each}}
+        </select>
+        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#newContentModal">
+          New Content
+        </button>
+      </div>
+
+
     </div>
     <div class="card-body page-list">
       <table class="table table-responsive-sm table-striped" id="admin-content">
@@ -16,7 +25,7 @@
             <th class='text-right'>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="content_body">
           {{#each data}}
           <tr>
             <td><a href="/admin/content/edit/{{ this.data.contentType }}/{{ this.id }}">{{ this.data.title }}</a></td>
@@ -27,18 +36,10 @@
                 class="btn btn-sm btn-primary rmargin">Edit</a>
 
               <a tabindex="0" class="btn btn-sm btn-danger" role="button" data-html="true" data-toggle="popover"
-                data-trigger="focus" aria-label="Delete {{ this.data.title }}" title="Delete <b>{{ this.data.title }}</b> Forever?" data-content="<a href='/content/{{ this.id }}'
+                data-trigger="focus" aria-label="Delete {{ this.data.title }}"
+                title="Delete <b>{{ this.data.title }}</b> Forever?" data-content="<a href='/content/{{ this.id }}'
    class='btn btn-sm btn-danger rmargin'>Confirm Delete</a>
 ">Delete</a>
-
-              {{!-- <!-- <a href="{{ content.url }}" target="_blank" class="btn btn-sm btn-success rmargin">View</a> -->
-                <a class="btn btn-sm btn-warning rmargin" *ngIf="content.data.contentType==='page'" [routerLink]="['/page-builder', content.id]">Page Builder</a>
-
-
-                <ng-template #popTitle>Delete <b>{{ content.name }}</b>?</ng-template>
-                <ng-template #popContent><button class="btn btn-sm btn-danger" (click)="deleteContent(content.id)">Confirm Delete</button></ng-template>
-                <button class="btn btn-sm btn-danger" placement="top"
-                [ngbPopover]="popContent" [popoverTitle]="popTitle">Delete</button> --}}
             </td>
           </tr>
           {{/each}}
@@ -47,9 +48,6 @@
     </div>
   </div>
 </div>
-
-
-
 
 
 <!-- Section Editor Modal -->

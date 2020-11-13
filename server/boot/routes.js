@@ -526,14 +526,32 @@ module.exports = function (app) {
       if (path[5]) {
         param2 = path[5];
       }
-
       let data = {};
-
+      console.log(viewName)
+      if (viewName == "admin-dashboard") {
+        data.countContent = await dataService.getContentAdmin();
+        data.countModule = await moduleService.getModules();
+        data.countMedia = await mediaService.getMedia();
+      }
+      if (viewName == "admin-page-manager") {
+        data = await dataService.getContentByType('page');
+      }
+      if (viewName == "admin-blog-manager") {
+        data = await dataService.getContentByType('blog');
+        console.log(data)
+      }
       if (viewName == "admin-content") {
         data = await dataService.getContentAdmin();
         data.contentTypes = await dataService.getContentTypes();
       }
-
+      if (viewName == "admin-content-create") {
+        data.editForm = await formService.getForm(
+          param1,
+          null,
+          "submitContent(submission)"
+        );
+        data.contenType = param1;
+      }
       if (viewName == "admin-content-edit") {
         let content = null;
         if (param2) {
@@ -664,7 +682,6 @@ module.exports = function (app) {
         page: req.url,
         ip: ip,
       });
-
       res.render(viewName, {
         layout: "admin.handlebars",
         data: data,
