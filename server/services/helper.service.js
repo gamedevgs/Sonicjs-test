@@ -41,6 +41,9 @@
       }
       return `${baseUrl}?${paramName}=${paramValue}`;
     }),
+    (exports.setThumb = function(originalName) {
+      return `/files/${originalName}`
+    }),
     (exports.sleep = function(ms) {
       return new Promise(resolve => {
         setTimeout(resolve, ms);

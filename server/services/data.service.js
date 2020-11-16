@@ -286,7 +286,7 @@ if (typeof module !== "undefined" && module.exports) {
         }
     }),
     (exports.getImageUrl = function(img) {
-        return `/files/${img.originalName}`;
+        return helperService.setThumb(img.originalName);
     }),
     (exports.getImage = function(img) {
         let url = this.getImageUrl(img);

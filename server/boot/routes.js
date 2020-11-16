@@ -40,7 +40,7 @@ const log = console.log;
 const url = require("url");
 var admin = require(__dirname + "/admin");
 
-module.exports = function(app) {
+module.exports = function (app) {
     // app.get('/', async function (req, res) {
     //   res.send('ok');
     // });
@@ -50,7 +50,7 @@ module.exports = function(app) {
     let page = "";
     let adminPage = "";
 
-    (async() => {
+    (async () => {
         await cacheService.startup();
         await menuService.startup();
         await mediaService.startup();
@@ -62,7 +62,7 @@ module.exports = function(app) {
         await emitterService.emit("startup");
     })();
 
-    app.get("*", async function(req, res, next) {
+    app.get("*", async function (req, res, next) {
         globalService.AccessToken = app.models.AccessToken;
 
         // Update a value in the cookie so that the set-cookie will be sent.
@@ -74,30 +74,30 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/register", async function(req, res) {
+    app.get("/register", async function (req, res) {
         let data = { registerMessage: "<b>admin</b>" };
         res.render("admin-register", { layout: "login.handlebars", data: data });
         return;
     });
 
-    app.post("/register", function(req, res) {
+    app.post("/register", function (req, res) {
         var user = loopback.getModel("user");
         user.create({ email: req.body.email, password: req.body.password, roles: [1] },
-            function(err, userInstance) {
+            function (err, userInstance) {
                 // console.log(userInstance);
 
                 //map admin role
                 var roleMappingModel = loopback.getModel("RoleMapping");
                 roleMappingModel.upsertWithWhere({
-                        principalType: "user",
-                        principalId: 1,
-                        roleId: "admin",
-                    }, {
-                        principalType: "user",
-                        principalId: 1,
-                        roleId: "admin",
-                    },
-                    function(err, info) {
+                    principalType: "user",
+                    principalId: 1,
+                    roleId: "admin",
+                }, {
+                    principalType: "user",
+                    principalId: 1,
+                    roleId: "admin",
+                },
+                    function (err, info) {
                         if (err) {
                             console.log(info);
                         }
@@ -113,16 +113,16 @@ module.exports = function(app) {
     });
 
     //log a user in
-    app.post("/login", function(req, res) {
+    app.post("/login", function (req, res) {
         var user = app.models.User;
         let referer = req.headers.referer;
 
         user.login({
-                email: req.body.email,
-                password: req.body.password,
-            },
+            email: req.body.email,
+            password: req.body.password,
+        },
             "user",
-            function(err, token) {
+            function (err, token) {
                 if (err) {
                     if (err.details && err.code === "LOGIN_FAILED_EMAIL_NOT_VERIFIED") {
                         res.render("reponseToTriggerEmail", {
@@ -168,13 +168,13 @@ module.exports = function(app) {
     });
 
     //log a user out
-    app.get("/logout", async function(req, res, next) {
+    app.get("/logout", async function (req, res, next) {
         var user = app.models.User;
         var token = req.signedCookies.sonicjs_access_token;
         let currentUser = await userService.getCurrentUser(req);
         if (!token) return res.sendStatus(401);
 
-        user.logout(token, async function(err) {
+        user.logout(token, async function (err) {
             if (err) {
                 //user already logged out
                 res.redirect("/admin");
@@ -191,7 +191,7 @@ module.exports = function(app) {
         });
     });
 
-    app.post("/admin/pb-update-module-sort", async function(req, res) {
+    app.post("/admin/pb-update-module-sort", async function (req, res) {
         let data = req.body.data;
         console.log(data);
 
@@ -236,7 +236,7 @@ module.exports = function(app) {
         // return;
     });
 
-    app.post("/admin/pb-update-module-copy", async function(req, res) {
+    app.post("/admin/pb-update-module-copy", async function (req, res) {
         let data = req.body.data;
         console.log(data);
 
@@ -285,7 +285,7 @@ module.exports = function(app) {
         // // return;
     });
 
-    app.post("/admin/pb-update-module-delete", async function(req, res) {
+    app.post("/admin/pb-update-module-delete", async function (req, res) {
         let data = req.body.data;
         console.log(data);
 
@@ -327,13 +327,13 @@ module.exports = function(app) {
         res.send(`ok`);
     });
 
-    app.get("/hbs", async function(req, res) {
+    app.get("/hbs", async function (req, res) {
         res.render("home");
     });
 
-    app.get("/nested-forms-list*", async function(req, res) {
+    app.get("/nested-forms-list*", async function (req, res) {
         let contentTypesRaw = await dataService.getContentTypes();
-        let contentTypes = contentTypesRaw.map(function(contentType) {
+        let contentTypes = contentTypesRaw.map(function (contentType) {
             return {
                 _id: contentType.systemid,
                 type: "form",
@@ -345,28 +345,28 @@ module.exports = function(app) {
         res.send(sorted);
     });
 
-    app.get("/form/*", async function(req, res) {
+    app.get("/form/*", async function (req, res) {
         let moduleSystemId = req.path.replace("/form/", "");
         let contentType = await dataService.getContentType(moduleSystemId);
         let form = await formService.getFormJson(contentType);
         res.send(form);
     });
 
-    app.get("/zsandbox", async function(req, res) {
+    app.get("/zsandbox", async function (req, res) {
         let data = {};
         res.render("sandbox", { layout: "blank.handlebars", data: data });
     });
 
-    app.get("/admin/sandbox", async function(req, res) {
+    app.get("/admin/sandbox", async function (req, res) {
         let data = {};
         res.render("sandbox", { layout: "admin.handlebars", data: data });
     });
 
-    app.get("/ztest", async function(req, res) {
+    app.get("/ztest", async function (req, res) {
         res.send("ok");
     });
 
-    app.get("/session-test", async function(req, res) {
+    app.get("/session-test", async function (req, res) {
         var token = req.signedCookies.sonicjs_access_token;
         if (req.session.views) {
             req.session.views++;
@@ -380,7 +380,7 @@ module.exports = function(app) {
         }
     });
 
-    app.get("/session-details", async function(req, res) {
+    app.get("/session-details", async function (req, res) {
         var token = req.signedCookies.sonicjs_access_token;
         let userId = await userService.getCurrentUserId(req);
         let user = await userService.getCurrentUser(req);
@@ -390,13 +390,13 @@ module.exports = function(app) {
         res.send(`userId:${userId}`);
     });
 
-    app.get("/css/generated.css", async function(req, res) {
+    app.get("/css/generated.css", async function (req, res) {
         res.set("Content-Type", "text/css");
         let css = await cssService.getGeneratedCss();
         res.send(css);
     });
 
-    app.post("/form-submission", async function(req, res) {
+    app.post("/form-submission", async function (req, res) {
         console.log(req.body.data);
         //
         await emitterService.emit("afterFormSubmit", req.body.data);
@@ -406,7 +406,7 @@ module.exports = function(app) {
     //   res.send(adminPage);
     // });
 
-    app.get("*", async function(req, res, next) {
+    app.get("*", async function (req, res, next) {
         await emitterService.emit("requestBegin", { req: req, res: res });
 
         if (req.isRequestAlreadyHandled) {
@@ -658,7 +658,7 @@ module.exports = function(app) {
                     );
                     break;
                 default:
-                    res.json({ status: 200 })
+                    // res.json({ status: 200 })
                     break;
             }
 
