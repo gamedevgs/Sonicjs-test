@@ -14,16 +14,16 @@ var axiosInstance;
 
 module.exports = mediaService = {
 
-    startup: async function () {
-        emitterService.on('getRenderedPagePostDataFetch', async function (options) {
+    startup: async function() {
+        emitterService.on('getRenderedPagePostDataFetch', async function(options) {
             if (options && options.page) {
                 await mediaService.processHeroImage(options.page);
             }
         });
 
-        emitterService.on('requestBegin', async function (options) {
+        emitterService.on('requestBegin', async function(options) {
             // console.log('data service startup')
-            if(options){
+            if (options) {
                 let baseUrl = globalService.baseUrl;
                 // console.log('data service ' + baseUrl)
                 axiosInstance = axios.create({ baseURL: baseUrl });
@@ -31,7 +31,7 @@ module.exports = mediaService = {
         });
     },
 
-    processHeroImage: async function (page) {
+    processHeroImage: async function(page) {
         // if (page.data.heroImage[0]) {
         //     page.data.heroImage = page.data.heroImage[0].originalName;
         // }
@@ -40,23 +40,23 @@ module.exports = mediaService = {
         page.data.jumbotronStyle = jumbotronStyle;
     },
 
-    getMedia: async function () {
+    getMedia: async function() {
         let url = '/api/containers/files/files';
         return axiosInstance.get(url)
-        .then(async function (record) {
-            if (record.data) {
-                return record.data;
-            }
-            return 'not found';
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+            .then(async function(record) {
+                if (record.data) {
+                    return record.data;
+                }
+                return 'not found';
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     },
 
-    addMediaUrl: async function (mediaList) {
+    addMediaUrl: async function(mediaList) {
         mediaList.forEach(media => {
-            media.data.url = `/api/containers/files/download/${media.data.file}`;
+            media.data.url = `/files/${media.data.file}`;
             media.data.thumbUrl = `/images/${media.data.file}?width=240`;
         });
     }

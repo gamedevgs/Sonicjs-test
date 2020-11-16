@@ -44,7 +44,7 @@
                 .then(async function (form) {
 
                   form.submission = {
-                    data: { id: {{ data.raw.id }}, title: '{{ data.raw.title }}', systemid: '{{ data.raw.systemid }}' }
+                    data: { id: '{{ data.raw.id }}', title: '{{ data.raw.title }}', systemid: '{{ data.raw.systemid }}' }
                   };
             form.on('submit', async function (submission) {
               submission.id = submission.data.id;
@@ -52,6 +52,7 @@
               submission.title = submission.data.title;
 
               editContentType(submission);
+              alert(1)
             });
                 });
             }
